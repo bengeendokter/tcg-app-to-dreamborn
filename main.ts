@@ -1,3 +1,5 @@
+console.log("main.ts is running");
+
 // try to fetch the latest version of allCards.json
 
 // if the fetch fails, use the local version

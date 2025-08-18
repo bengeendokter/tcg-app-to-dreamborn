@@ -1,0 +1,16 @@
+{
+  "name": "lorcana-tcg-to-dreamborn",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "tsx main.ts"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "packageManager": "pnpm@10.14.0",
+  "dependencies": {
+    "tsx": "^4.20.4"
+  }
+}
