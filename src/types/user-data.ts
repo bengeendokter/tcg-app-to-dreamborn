@@ -1,22 +1,22 @@
-const USER_DATA_CARD_TYPE = {
+export const USER_DATA_CARD_TYPE = {
     REGULAR: "Regular",
     FOILED: "Foiled"
 } as const;
 
-type UserDataCardType = typeof USER_DATA_CARD_TYPE[keyof typeof USER_DATA_CARD_TYPE];
+export type UserDataCardType = typeof USER_DATA_CARD_TYPE[keyof typeof USER_DATA_CARD_TYPE];
 
-interface UserDataCard {
+export interface UserDataCard {
     Id: number;
     Type: UserDataCardType;
     Quantity: number;
 }
 
-interface UserDataDeck {
+export interface UserDataDeck {
     AutoNameNumber: number;
     DeckCode: string;
 }
 
-interface UserData {
+export interface UserData {
     OwnedCardQuantitiesV2: UserDataCard[]
     Decks: UserDataDeck[];
 }

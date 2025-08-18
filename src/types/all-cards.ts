@@ -1,4 +1,4 @@
-interface Card {
+export interface Card {
     id: number;
     number: number;
     setCode: string;
@@ -6,7 +6,7 @@ interface Card {
     fullName: string;
 }
 
-interface AllCards {
+export interface AllCards {
     cards: Card[];
 }
 

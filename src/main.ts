@@ -1,6 +1,9 @@
 import * as fs from 'fs';
 import { isAllCards } from './types/all-cards';
 import { isUserData } from './types/user-data';
+import { DreambornCollectionCard, DreambornDeckCard } from './types/dreamborn';
+import { getDreambornCollection } from './dreamborn-collection';
+import { getDreambornDeckList } from './dreamborn-deck';
 
 // TODO try to fetch the latest version of allCards.json
 
@@ -65,7 +68,9 @@ if (!isUserData(userData)) {
 }
 
 // create collection.csv file
-console.log("parsedAllCardsJson", allCards);
-console.log("parsedUserDataJson", userData);
+const dreambornCollection: DreambornCollectionCard[] = getDreambornCollection(allCards, userData);
+console.log("dreambornCollection", dreambornCollection);
 
 // create all deck.txt files
+const dreambornDeckList: DreambornDeckCard[] = getDreambornDeckList(allCards, userData);
+console.log("dreambornDeckList", dreambornDeckList);
