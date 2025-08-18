@@ -69,7 +69,7 @@ if (!isUserData(userData)) {
 
 // create collection.csv file
 const dreambornCollection: DreambornCollectionCard[] = getDreambornCollection(allCards, userData);
-console.log("dreambornCollection", dreambornCollection);
+// console.log("dreambornCollection", dreambornCollection);
 
 // create all deck.txt files
 const dreambornDeckList: DreambornDeck[] = getDreambornDeckList(allCards, userData);

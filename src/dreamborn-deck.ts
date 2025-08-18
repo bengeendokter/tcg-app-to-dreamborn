@@ -15,7 +15,7 @@ export function getDreambornDeckList(allCards: AllCards, userData: UserData): Dr
         const deckCode: string = userDataDeck.DeckCode;
         const cardCodeListString: string = deckCode.substring(1);
 
-        if(cardCodeListString.length % 2 !== 0) {
+        if (cardCodeListString.length % 2 !== 0) {
             throw Error(`Invalid deck code: ${cardCodeListString}. It should have an even number of characters.`);
         }
 
@@ -23,7 +23,15 @@ export function getDreambornDeckList(allCards: AllCards, userData: UserData): Dr
         const cardCodeList: string[] = cardCodeListString.match(/.{1,2}/g) || [];
 
         const countedCardCodeList: CountedCardCode[] = cardCodeList.reduce((acc: CountedCardCode[], cardCode: string) => {
-            // TODO
+            const existingCard: CountedCardCode | undefined = acc.find(item => item.cardCode === cardCode);
+
+            if (!existingCard) {
+                return [...acc, { cardCode, count: 0 }];
+            }
+
+            const listWithoutExistingCard: CountedCardCode[] = acc.filter(item => item.cardCode !== cardCode);
+
+            return [...listWithoutExistingCard, { ...existingCard, count: existingCard.count + 1 }]; 
         }, []);
 
         const cards: DreambornDeckCard[] = countedCardCodeList.map((countedCardCode: CountedCardCode) => {
