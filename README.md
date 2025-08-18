@@ -5,7 +5,7 @@ Extract data from the [Android Disney Lorcana TCG Companion app](https://play.go
 1. Instal node.js
 2. Install pnpm
 3. Clone this repo
-4. Run `pnpm install`
+4. Run `pnpm install` in the terminal
 
 ## Run program
 1. Replace `data/userdata.json` with your own file from `Android/data/com.ravensburger.disney.lorcana/files/userdata.json`
