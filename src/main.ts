@@ -69,8 +69,13 @@ if (!isUserData(userData)) {
 
 // create collection.csv file
 const dreambornCollection: DreambornCollectionCard[] = getDreambornCollection(allCards, userData);
-// console.log("dreambornCollection", dreambornCollection);
+const COLLECTION_CSV_PATH = "./output/collection.csv" as const;
+const collectionHeader = "Set Number,Card Number,Variant,Count";
+fs.writeFileSync(COLLECTION_CSV_PATH, [collectionHeader, ...dreambornCollection.map(card => [card.setNumber, card.cardNumber, card.variant, card.count].join(', '))].join('\n'), { encoding: 'utf-8' });
 
 // create all deck.txt files
 const dreambornDeckList: DreambornDeck[] = getDreambornDeckList(allCards, userData);
-console.log("dreambornDeckList", dreambornDeckList);
+dreambornDeckList.forEach(deck => {
+    const deckFileName = `./output/deck-${deck.name}.txt`;
+    fs.writeFileSync(deckFileName, deck.cards.map(card => [card.count, card.fullName].join(' ')).join('\n'), { encoding: 'utf-8' });
+});
