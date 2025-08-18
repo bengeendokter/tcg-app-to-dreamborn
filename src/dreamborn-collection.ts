@@ -1,7 +1,50 @@
-import { AllCards } from "./types/all-cards";
-import { DreambornCollectionCard } from "./types/dreamborn";
-import { UserData } from "./types/user-data";
+import { AllCards, Card } from "./types/all-cards";
+import { DreambornCollectionCard, DreambornCollectionCardVariant, DREAMBRON_COLLECTION_CARD_VARIANT } from "./types/dreamborn";
+import { USER_DATA_CARD_TYPE, UserData, UserDataCard, UserDataCardType } from "./types/user-data";
+
+function userDataTypeToDreambornVariant(userDataType: UserDataCardType): DreambornCollectionCardVariant {
+    switch (userDataType) {
+        case USER_DATA_CARD_TYPE.REGULAR:
+            return DREAMBRON_COLLECTION_CARD_VARIANT.NORMAL;
+        case USER_DATA_CARD_TYPE.FOILED:
+            return DREAMBRON_COLLECTION_CARD_VARIANT.FOIL;
+        default:
+            userDataType satisfies never;
+            throw Error(`Unknown UserDataCardType: ${userDataType}`);
+    }
+}
 
 export function getDreambornCollection(allCards: AllCards, userData: UserData): DreambornCollectionCard[] {
-    return [];
+    const userDataCards: UserDataCard[] = userData.OwnedCardQuantitiesV2;
+
+    return userDataCards
+        .map((userDataCard: UserDataCard) => {
+            const card: Card | undefined = allCards.cards.find(card => card.id === userDataCard.Id);
+
+            if (!card) {
+                throw Error(`Card with ID ${userDataCard.Id} not found in allCards`);
+            }
+
+            return {userDataCard, card};
+        })
+        .filter(({card}) => {
+            const filteredOutSetNumbers: string[] = ["Q1"];
+            return !filteredOutSetNumbers.includes(card.setCode);
+        })
+        .map(({userDataCard, card}) => {
+            const variant: DreambornCollectionCardVariant = userDataTypeToDreambornVariant(userDataCard.Type);
+
+            const setNumber: number = Number(card.setCode);
+
+            if (isNaN(setNumber)) {
+                throw Error(`Invalid set number for card with ID ${userDataCard.Id}: ${card.setCode}`);
+            }
+
+            return {
+                setNumber,
+                cardNumber: card.number,
+                variant,
+                count: userDataCard.Quantity
+            };
+        });
 }
