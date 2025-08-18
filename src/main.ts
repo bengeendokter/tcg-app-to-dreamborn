@@ -1,11 +1,11 @@
 import * as fs from 'fs';
-import { isAllCards } from './all-cards';
-import { isUserData } from './user-data';
+import { isAllCards } from './types/all-cards';
+import { isUserData } from './types/user-data';
 
 // TODO try to fetch the latest version of allCards.json
 
 // if the fetch fails, use the local version
-const ALL_CARDS_PATH = "allCards.json" as const;
+const ALL_CARDS_PATH = "./src/data/allCards.json" as const;
 let importedAllCardsJson: string;
 
 try {
@@ -35,7 +35,7 @@ if (!isAllCards(allCards)) {
 }
 
 // import userdata.json
-const USER_DATA_PATH = "userdata.json" as const;
+const USER_DATA_PATH = "./src/data/userdata.json" as const;
 let importedUserDataJson: string;
 
 try {
