@@ -10,7 +10,7 @@ interface AllCards {
     cards: Card[];
 }
 
-export function isAllCards(object: any): object is AllCards {
+export function isAllCards(object: object): object is AllCards {
     // TODO implement type checking logic for AllCards
     return true;
 }

@@ -1,5 +1,6 @@
 import * as fs from 'fs';
 import { isAllCards } from './all-cards';
+import { isUserData } from './user-data';
 
 // TODO try to fetch the latest version of allCards.json
 
@@ -60,9 +61,12 @@ if (typeof parsedUserDataJson !== 'object' || parsedUserDataJson === null) {
     throw Error(`Parsed ${USER_DATA_PATH} is not an object`);
 }
 
-console.log("parsedUserDataJson", parsedUserDataJson);
-
 // check if userdata.json is of correct type
+if (!isUserData(parsedUserDataJson)) {
+    throw Error(`Parsed ${USER_DATA_PATH} is not of type UserData`);
+}
+
+console.log("parsedUserDataJson", parsedUserDataJson);
 
 // create collection.csv file
 
