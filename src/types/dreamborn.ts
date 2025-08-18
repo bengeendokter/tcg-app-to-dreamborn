@@ -16,3 +16,8 @@ export interface DreambornDeckCard {
     count: number;
     fullName: string;
 }
+
+export interface DreambornDeck {
+    name: string;
+    cards: DreambornDeckCard[];
+}

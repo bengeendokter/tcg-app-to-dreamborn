@@ -1,7 +1,7 @@
 import * as fs from 'fs';
 import { isAllCards } from './types/all-cards';
 import { isUserData } from './types/user-data';
-import { DreambornCollectionCard, DreambornDeckCard } from './types/dreamborn';
+import { DreambornCollectionCard, DreambornDeck } from './types/dreamborn';
 import { getDreambornCollection } from './dreamborn-collection';
 import { getDreambornDeckList } from './dreamborn-deck';
 
@@ -72,5 +72,5 @@ const dreambornCollection: DreambornCollectionCard[] = getDreambornCollection(al
 console.log("dreambornCollection", dreambornCollection);
 
 // create all deck.txt files
-const dreambornDeckList: DreambornDeckCard[] = getDreambornDeckList(allCards, userData);
+const dreambornDeckList: DreambornDeck[] = getDreambornDeckList(allCards, userData);
 console.log("dreambornDeckList", dreambornDeckList);
