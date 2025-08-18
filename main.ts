@@ -16,25 +16,23 @@ catch (error) {
 }
 
 // parse the allCards.json string into an object
-let parsedAllCardsJson: unknown;
+let parsedAllCards: unknown;
 
 try {
-    parsedAllCardsJson = JSON.parse(importedAllCardsJson);
+    parsedAllCards = JSON.parse(importedAllCardsJson);
 }
 catch (error) {
     throw Error(`Format of ${ALL_CARDS_PATH} is not valid JSON`);
 }
 
-if (typeof parsedAllCardsJson !== 'object' || parsedAllCardsJson === null) {
+if (typeof parsedAllCards !== 'object' || parsedAllCards === null) {
     throw Error(`Parsed ${ALL_CARDS_PATH} is not an object`);
 }
 
 // check if allCards.json is of correct type
-if (!isAllCards(parsedAllCardsJson)) {
+if (!isAllCards(parsedAllCards)) {
     throw Error(`Parsed ${ALL_CARDS_PATH} is not of type AllCards`);
 }
-
-console.log("parsedAllCardsJson", parsedAllCardsJson);
 
 // import userdata.json
 const USER_DATA_PATH = "userdata.json" as const;
@@ -48,26 +46,26 @@ catch (error) {
 }
 
 // parse the allCards.json string into an object
-let parsedUserDataJson: unknown;
+let parsedUserData: unknown;
 
 try {
-    parsedUserDataJson = JSON.parse(importedUserDataJson);
+    parsedUserData = JSON.parse(importedUserDataJson);
 }
 catch (error) {
     throw Error(`Format of ${USER_DATA_PATH} is not valid JSON`);
 }
 
-if (typeof parsedUserDataJson !== 'object' || parsedUserDataJson === null) {
+if (typeof parsedUserData !== 'object' || parsedUserData === null) {
     throw Error(`Parsed ${USER_DATA_PATH} is not an object`);
 }
 
 // check if userdata.json is of correct type
-if (!isUserData(parsedUserDataJson)) {
+if (!isUserData(parsedUserData)) {
     throw Error(`Parsed ${USER_DATA_PATH} is not of type UserData`);
 }
 
-console.log("parsedUserDataJson", parsedUserDataJson);
-
 // create collection.csv file
+console.log("parsedAllCardsJson", parsedAllCards);
+console.log("parsedUserDataJson", parsedUserData);
 
 // create all deck.txt files
