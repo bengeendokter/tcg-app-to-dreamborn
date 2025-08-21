@@ -53,7 +53,7 @@ export function getDreambornDeckList(allCards: AllCards, userData: UserData): Dr
             })
             .map(({ countedCardCode, card }) => {
                 return {
-                    count: countedCardCode.count,
+                    count: countedCardCode.count + 1,
                     fullName: card.fullName
                 };
             });
