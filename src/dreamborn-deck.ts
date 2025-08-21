@@ -31,21 +31,32 @@ export function getDreambornDeckList(allCards: AllCards, userData: UserData): Dr
 
             const listWithoutExistingCard: CountedCardCode[] = acc.filter(item => item.cardCode !== cardCode);
 
-            return [...listWithoutExistingCard, { ...existingCard, count: existingCard.count + 1 }]; 
+            return [...listWithoutExistingCard, { ...existingCard, count: existingCard.count + 1 }];
         }, []);
 
-        const cards: DreambornDeckCard[] = countedCardCodeList.map((countedCardCode: CountedCardCode) => {
-            const card: Card | undefined = allCards.cards.find(card => card.code === countedCardCode.cardCode);
+        const cards: DreambornDeckCard[] = countedCardCodeList
+            .map((countedCardCode: CountedCardCode) => {
+                const card: Card | undefined = allCards.cards.find(card => card.code === countedCardCode.cardCode);
 
-            if (!card) {
-                throw Error(`Card with code ${countedCardCode.cardCode} not found in allCards`);
-            }
+                return { countedCardCode, card };
+            })
+            .filter((cardCodeResult): cardCodeResult is {
+                countedCardCode: CountedCardCode;
+                card: Card;
+            } => {
+                if (cardCodeResult.card === undefined) {
+                    console.warn(`Card with code ${cardCodeResult.countedCardCode.cardCode} not found in allCards`);
+                    return false;
+                }
 
-            return {
-                count: countedCardCode.count,
-                fullName: card.fullName
-            };
-        });
+                return true;
+            })
+            .map(({ countedCardCode, card }) => {
+                return {
+                    count: countedCardCode.count,
+                    fullName: card.fullName
+                };
+            });
 
         return {
             name,
