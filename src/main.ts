@@ -5,6 +5,10 @@ import type { DreambornCollectionCard, DreambornDeck } from './types/dreamborn';
 import { getDreambornCollection } from './dreamborn-collection';
 import { getDreambornDeckList } from './dreamborn-deck';
 
+// TODO add backup link input option
+
+// TODO add deck link input option
+
 // TODO try to fetch the latest version of allCards.json
 
 // if the fetch fails, use the local version
