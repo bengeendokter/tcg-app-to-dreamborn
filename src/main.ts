@@ -1,7 +1,7 @@
 import * as fs from 'fs';
 import { isAllCards } from './types/all-cards';
 import { isUserData } from './types/user-data';
-import { DreambornCollectionCard, DreambornDeck } from './types/dreamborn';
+import type { DreambornCollectionCard, DreambornDeck } from './types/dreamborn';
 import { getDreambornCollection } from './dreamborn-collection';
 import { getDreambornDeckList } from './dreamborn-deck';
 

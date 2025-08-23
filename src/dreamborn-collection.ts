@@ -1,6 +1,6 @@
-import { AllCards, Card } from "./types/all-cards";
-import { DreambornCollectionCard, DreambornCollectionCardVariant, DREAMBRON_COLLECTION_CARD_VARIANT } from "./types/dreamborn";
-import { USER_DATA_CARD_TYPE, UserData, UserDataCard, UserDataCardType } from "./types/user-data";
+import type { AllCards, Card } from "./types/all-cards";
+import { DREAMBRON_COLLECTION_CARD_VARIANT, type DreambornCollectionCard, type DreambornCollectionCardVariant } from "./types/dreamborn";
+import { USER_DATA_CARD_TYPE, type UserData, type UserDataCard, type UserDataCardType } from "./types/user-data";
 
 function userDataTypeToDreambornVariant(userDataType: UserDataCardType): DreambornCollectionCardVariant {
     switch (userDataType) {

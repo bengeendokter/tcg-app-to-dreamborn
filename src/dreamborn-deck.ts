@@ -1,6 +1,6 @@
-import { AllCards, Card } from "./types/all-cards";
-import { DreambornDeck, DreambornDeckCard } from "./types/dreamborn";
-import { UserData, UserDataDeck } from "./types/user-data";
+import type { AllCards, Card } from "./types/all-cards";
+import type { DreambornDeck, DreambornDeckCard } from "./types/dreamborn";
+import type { UserData, UserDataDeck } from "./types/user-data";
 
 interface CountedCardCode {
     cardCode: string;
@@ -9,8 +9,9 @@ interface CountedCardCode {
 
 export function getDreambornDeckList(allCards: AllCards, userData: UserData): DreambornDeck[] {
     const userDataDecks: UserDataDeck[] = userData.Decks;
+    let allNotFoundCardCodes: Set<string> = new Set();
 
-    return userDataDecks.map((userDataDeck: UserDataDeck) => {
+    const dreambornDecks: DreambornDeck[] = userDataDecks.map((userDataDeck: UserDataDeck) => {
         const name: string = userDataDeck.AutoNameNumber.toString();
         const deckCode: string = userDataDeck.DeckCode;
         const cardCodeListString: string = deckCode.substring(1);
@@ -34,6 +35,8 @@ export function getDreambornDeckList(allCards: AllCards, userData: UserData): Dr
             return [...listWithoutExistingCard, { ...existingCard, count: existingCard.count + 1 }];
         }, []);
 
+        let notFountdCardCodes: Set<string> = new Set();
+
         const cards: DreambornDeckCard[] = countedCardCodeList
             .map((countedCardCode: CountedCardCode) => {
                 const card: Card | undefined = allCards.cards.find(card => card.code === countedCardCode.cardCode);
@@ -44,8 +47,10 @@ export function getDreambornDeckList(allCards: AllCards, userData: UserData): Dr
                 countedCardCode: CountedCardCode;
                 card: Card;
             } => {
-                if (cardCodeResult.card === undefined) {
-                    console.warn(`Card with code ${cardCodeResult.countedCardCode.cardCode} not found in allCards`);
+                const { card, countedCardCode } = cardCodeResult;
+
+                if (card === undefined) {
+                    notFountdCardCodes.add(countedCardCode.cardCode);
                     return false;
                 }
 
@@ -58,9 +63,20 @@ export function getDreambornDeckList(allCards: AllCards, userData: UserData): Dr
                 };
             });
 
+        if (notFountdCardCodes.size > 0) {
+            console.warn(`In deck "${name}" the following card codes could not be found: ${[...notFountdCardCodes].join(', ')}`);
+            allNotFoundCardCodes = allNotFoundCardCodes.union(notFountdCardCodes);
+        }
+
         return {
             name,
             cards
         };
     });
+
+    if (allNotFoundCardCodes.size > 0) {
+        console.warn(`These are all the card codes that could not be found: ${[...allNotFoundCardCodes].join(', ')}`);
+    }
+
+    return dreambornDecks;
 }
