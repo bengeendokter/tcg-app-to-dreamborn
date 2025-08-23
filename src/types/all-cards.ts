@@ -40,7 +40,7 @@ export function isAllCards(object: object): object is AllCards {
     }
 
     const cards: unknown = object.cards;
-    if(!Array.isArray(cards)) {
+    if (!Array.isArray(cards)) {
         return false;
     }
 
