@@ -3,8 +3,8 @@ export function parseUrlId(url: string): string {
         throw Error(`${url} is not a valid URL`);
     }
 
-    const backupUrl: URL = new URL(url);
-    const searchParams: URLSearchParams = backupUrl.searchParams;
+    const parsableUrl: URL = new URL(url);
+    const searchParams: URLSearchParams = parsableUrl.searchParams;
     if (!searchParams.has('id')) {
         throw Error(`URL ${url} does not contain a valid id parameter`);
     }

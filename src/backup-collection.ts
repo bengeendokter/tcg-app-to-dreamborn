@@ -11,9 +11,9 @@ import { getAllCards } from './all-cards';
 const USING_BACKUP_URL = true as const;
 const USER_DATA_PATH = "./data/userdata.json" as const;
 
-export async function backupCollection(inputBackupUrl: string): Promise<{ collection: DreambornCollectionCard[], decks: DreambornDeck[] }> {
-    const backupId: string = parseUrlId(inputBackupUrl);
-    const userDataUrl = `https://sharing.lorcana.ravensburger.com/backup/${backupId}.json` as const;
+export async function backupCollection(backupUrl: string): Promise<{ collection: DreambornCollectionCard[], decks: DreambornDeck[] }> {
+    const backupId: string = parseUrlId(backupUrl);
+    const apiBackupUrl = `https://sharing.lorcana.ravensburger.com/backup/${backupId}.json` as const;
 
     // get allCards.json
     const allCards: AllCards = await getAllCards();
@@ -23,7 +23,7 @@ export async function backupCollection(inputBackupUrl: string): Promise<{ collec
 
     if (USING_BACKUP_URL) {
         // fetch userdata.json from backup URL
-        userData = await fetchJson(userDataUrl);
+        userData = await fetchJson(apiBackupUrl);
     }
     else {
         // import userdata.json

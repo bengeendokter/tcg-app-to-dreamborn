@@ -4,15 +4,15 @@ import { backupDeck } from './backup-deck';
 import type { DreambornCollectionCard, DreambornDeck } from './types/dreamborn';
 import { MODE, type Mode } from './types/mode';
 
-const inputDeckUrl: string = 'https://www.disneylorcana.com/sharing/deck?id=897ce782-f5a7-4fdb-845e-1a89aafdd369';
-const inputBackupUrl: string = 'https://www.disneylorcana.com/sharing/backup?id=7fcf9ad0-eac2-4a11-9b00-07802471e7d4';
+const deckUrl: string = 'https://www.disneylorcana.com/sharing/deck?id=897ce782-f5a7-4fdb-845e-1a89aafdd369';
+const backupUrl: string = 'https://www.disneylorcana.com/sharing/backup?id=7fcf9ad0-eac2-4a11-9b00-07802471e7d4';
 const outputDirectory: string = "./output";
 const mode: Mode = MODE.DECK;
 
 async function main(): Promise<void> {
     switch (mode) {
         case MODE.COLLECTION:
-            const { collection, decks }: { collection: DreambornCollectionCard[], decks: DreambornDeck[] } = await backupCollection(inputBackupUrl);
+            const { collection, decks }: { collection: DreambornCollectionCard[], decks: DreambornDeck[] } = await backupCollection(backupUrl);
 
             // create collection.csv file
             const collectionHeader = "Set Number,Card Number,Variant,Count";
@@ -26,7 +26,7 @@ async function main(): Promise<void> {
             return;
 
         case MODE.DECK:
-            const dreambornDeck: DreambornDeck = await backupDeck(inputDeckUrl);
+            const dreambornDeck: DreambornDeck = await backupDeck(deckUrl);
 
             // create shared-deck.txt file
             const deckFileName = `${outputDirectory}/${dreambornDeck.name}.txt`;
