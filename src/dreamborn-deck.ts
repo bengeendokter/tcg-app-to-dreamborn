@@ -11,8 +11,9 @@ export function getDreambornDeckList(allCards: AllCards, userData: UserData): Dr
     const userDataDecks: UserDataDeck[] = userData.Decks;
     let allNotFoundCardCodes: Set<string> = new Set();
 
-    const dreambornDecks: DreambornDeck[] = userDataDecks.map((userDataDeck: UserDataDeck) => {
-        const name: string = userDataDeck.AutoNameNumber.toString();
+    const dreambornDecks: DreambornDeck[] = userDataDecks.map((userDataDeck: UserDataDeck, index: number) => {
+        const autoNameNumber: number = userDataDeck.AutoNameNumber ?? (index + 1);
+        const name: string = autoNameNumber.toString();
         const deckCode: string = userDataDeck.DeckCode;
         const cardCodeListString: string = deckCode.substring(1);
 

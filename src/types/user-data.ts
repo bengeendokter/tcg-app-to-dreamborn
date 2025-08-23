@@ -12,7 +12,7 @@ export interface UserDataCard {
 }
 
 export interface UserDataDeck {
-    AutoNameNumber: number;
+    AutoNameNumber?: number;
     DeckCode: string;
 }
 
@@ -48,11 +48,11 @@ function isUserDataCard(object: object): object is UserDataCard {
 }
 
 function isUserDataDeck(object: object): object is UserDataDeck {
-    if (!('AutoNameNumber' in object) || typeof object.AutoNameNumber !== 'number') {
+    if (!('DeckCode' in object) || typeof object.DeckCode !== 'string') {
         return false;
     }
 
-    if (!('DeckCode' in object) || typeof object.DeckCode !== 'string') {
+    if (('AutoNameNumber' in object) && typeof object.AutoNameNumber !== 'number') {
         return false;
     }
 

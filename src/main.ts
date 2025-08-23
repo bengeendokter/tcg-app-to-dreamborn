@@ -9,17 +9,18 @@ import { fetchJson } from './fetch-json';
 
 const ALL_CARDS_URL = 'https://lorcanajson.org/files/current/en/allCards.json' as const;
 const ALL_CARDS_PATH = "./data/allCards.json" as const;
+const USING_BACKUP_URL = true;
+const USER_DATA_URL = 'https://sharing.lorcana.ravensburger.com/backup/7fcf9ad0-eac2-4a11-9b00-07802471e7d4.json';
 const USER_DATA_PATH = "./data/userdata.json" as const;
 const OUTPUT_DIR = "./output" as const;
 
-// TODO add backup link input option
+// TODO add individual deck link input option
 
-// TODO add deck link input option
-
-// try to fetch the latest version of allCards.json
+// get allCards.json
 let allCards: object;
 
 try {
+    // try to fetch the newest allCards.json
     allCards = await fetchJson(ALL_CARDS_URL);
 }
 catch {
@@ -30,15 +31,24 @@ catch {
 
 // check if allCards.json is of correct type
 if (!isAllCards(allCards)) {
-    throw Error(`Parsed ${ALL_CARDS_PATH} is not of type AllCards`);
+    throw Error(`Parsed object is not of type AllCards`);
 }
 
-// import userdata.json
-const userData: object = importJson(USER_DATA_PATH);
+// fetch or import userdata.json
+let userData: object;
+
+if (USING_BACKUP_URL) {
+    // fetch userdata.json from backup URL
+    userData = await fetchJson(USER_DATA_URL);
+}
+else {
+    // import userdata.json
+    userData = importJson(USER_DATA_PATH);
+}
 
 // check if userdata.json is of correct type
 if (!isUserData(userData)) {
-    throw Error(`Parsed ${USER_DATA_PATH} is not of type UserData`);
+    throw Error(`Parsed object is not of type UserData`);
 }
 
 // create collection.csv file
