@@ -2,18 +2,11 @@ import * as fs from 'fs';
 import { backupCollection } from './backup-collection';
 import { backupDeck } from './backup-deck';
 import type { DreambornCollectionCard, DreambornDeck } from './types/dreamborn';
+import { MODE, type Mode } from './types/mode';
 
 const inputDeckUrl: string = 'https://www.disneylorcana.com/sharing/deck?id=897ce782-f5a7-4fdb-845e-1a89aafdd369';
 const inputBackupUrl: string = 'https://www.disneylorcana.com/sharing/backup?id=7fcf9ad0-eac2-4a11-9b00-07802471e7d4';
-
-const OUTPUT_DIR = "./output" as const;
-
-const MODE = {
-    COLLECTION: 'collection',
-    DECK: 'deck'
-} as const;
-type Mode = (typeof MODE)[keyof typeof MODE];
-
+const outputDirectory: string = "./output";
 const mode: Mode = MODE.DECK;
 
 async function main(): Promise<void> {
@@ -23,11 +16,11 @@ async function main(): Promise<void> {
 
             // create collection.csv file
             const collectionHeader = "Set Number,Card Number,Variant,Count";
-            fs.writeFileSync(`${OUTPUT_DIR}/collection.csv`, [collectionHeader, ...collection.map(card => [card.setNumber, card.cardNumber, card.variant, card.count].join(', '))].join('\n'), { encoding: 'utf-8' });
+            fs.writeFileSync(`${outputDirectory}/collection.csv`, [collectionHeader, ...collection.map(card => [card.setNumber, card.cardNumber, card.variant, card.count].join(', '))].join('\n'), { encoding: 'utf-8' });
 
             // create all deck.txt files
             decks.forEach(deck => {
-                const deckFileName = `${OUTPUT_DIR}/deck-${deck.name}.txt`;
+                const deckFileName = `${outputDirectory}/deck-${deck.name}.txt`;
                 fs.writeFileSync(deckFileName, deck.cards.map(card => [card.count, card.fullName].join(' ')).join('\n'), { encoding: 'utf-8' });
             });
             return;
@@ -36,7 +29,7 @@ async function main(): Promise<void> {
             const dreambornDeck: DreambornDeck = await backupDeck(inputDeckUrl);
 
             // create shared-deck.txt file
-            const deckFileName = `${OUTPUT_DIR}/${dreambornDeck.name}.txt`;
+            const deckFileName = `${outputDirectory}/${dreambornDeck.name}.txt`;
             fs.writeFileSync(deckFileName, dreambornDeck.cards.map(card => [card.count, card.fullName].join(' ')).join('\n'), { encoding: 'utf-8' });
             return;
 
