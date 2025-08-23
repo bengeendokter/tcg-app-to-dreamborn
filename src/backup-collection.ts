@@ -1,4 +1,3 @@
-import * as fs from 'fs';
 import type { AllCards } from './types/all-cards';
 import { isUserData } from './types/user-data';
 import type { DreambornCollectionCard, DreambornDeck } from './types/dreamborn';
@@ -11,9 +10,8 @@ import { getAllCards } from './all-cards';
 
 const USING_BACKUP_URL = true as const;
 const USER_DATA_PATH = "./data/userdata.json" as const;
-const OUTPUT_DIR = "./output" as const;
 
-export async function backupCollection(inputBackupUrl: string): Promise<void> {
+export async function backupCollection(inputBackupUrl: string): Promise<{ collection: DreambornCollectionCard[], decks: DreambornDeck[] }> {
     const backupId: string = parseUrlId(inputBackupUrl);
     const userDataUrl = `https://sharing.lorcana.ravensburger.com/backup/${backupId}.json` as const;
 
@@ -37,15 +35,8 @@ export async function backupCollection(inputBackupUrl: string): Promise<void> {
         throw Error(`Parsed object is not of type UserData`);
     }
 
-    // create collection.csv file
-    const dreambornCollection: DreambornCollectionCard[] = getDreambornCollection(allCards, userData);
-    const collectionHeader = "Set Number,Card Number,Variant,Count";
-    fs.writeFileSync(`${OUTPUT_DIR}/collection.csv`, [collectionHeader, ...dreambornCollection.map(card => [card.setNumber, card.cardNumber, card.variant, card.count].join(', '))].join('\n'), { encoding: 'utf-8' });
+    const collection: DreambornCollectionCard[] = getDreambornCollection(allCards, userData);
+    const decks: DreambornDeck[] = getDreambornDeckList(allCards, userData);
 
-    // create all deck.txt files
-    const dreambornDeckList: DreambornDeck[] = getDreambornDeckList(allCards, userData);
-    dreambornDeckList.forEach(deck => {
-        const deckFileName = `${OUTPUT_DIR}/deck-${deck.name}.txt`;
-        fs.writeFileSync(deckFileName, deck.cards.map(card => [card.count, card.fullName].join(' ')).join('\n'), { encoding: 'utf-8' });
-    });
+    return { collection, decks };
 }
