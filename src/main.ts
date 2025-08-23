@@ -4,36 +4,28 @@ import { isUserData } from './types/user-data';
 import type { DreambornCollectionCard, DreambornDeck } from './types/dreamborn';
 import { getDreambornCollection } from './dreamborn-collection';
 import { getDreambornDeckList } from './dreamborn-deck';
+import { importJson } from './import-json';
+import { fetchJson } from './fetch-json';
+
+const ALL_CARDS_URL = 'https://lorcanajson.org/files/current/en/allCards.json' as const;
+const ALL_CARDS_PATH = "./data/allCards.json" as const;
+const USER_DATA_PATH = "./data/userdata.json" as const;
+const OUTPUT_DIR = "./output" as const;
 
 // TODO add backup link input option
 
 // TODO add deck link input option
 
-// TODO try to fetch the latest version of allCards.json
-
-// if the fetch fails, use the local version
-const ALL_CARDS_PATH = "./data/allCards.json" as const;
-let importedAllCardsJson: string;
+// try to fetch the latest version of allCards.json
+let allCards: object;
 
 try {
-    importedAllCardsJson = fs.readFileSync(ALL_CARDS_PATH, { encoding: 'utf-8' });
+    allCards = await fetchJson(ALL_CARDS_URL);
 }
-catch (error) {
-    throw Error(`Failed to read ${ALL_CARDS_PATH}`);
-}
-
-// parse the allCards.json string into an object
-let allCards: unknown;
-
-try {
-    allCards = JSON.parse(importedAllCardsJson);
-}
-catch (error) {
-    throw Error(`Format of ${ALL_CARDS_PATH} is not valid JSON`);
-}
-
-if (typeof allCards !== 'object' || allCards === null) {
-    throw Error(`Parsed ${ALL_CARDS_PATH} is not an object`);
+catch {
+    // if the fetch fails, use the local version
+    console.warn(`Warning: Fetching ${ALL_CARDS_URL} failed. Using local version at ${ALL_CARDS_PATH}`);
+    allCards = importJson(ALL_CARDS_PATH);
 }
 
 // check if allCards.json is of correct type
@@ -42,29 +34,7 @@ if (!isAllCards(allCards)) {
 }
 
 // import userdata.json
-const USER_DATA_PATH = "./data/userdata.json" as const;
-let importedUserDataJson: string;
-
-try {
-    importedUserDataJson = fs.readFileSync(USER_DATA_PATH, { encoding: 'utf-8' });
-}
-catch (error) {
-    throw Error(`Failed to read ${USER_DATA_PATH}`);
-}
-
-// parse the allCards.json string into an object
-let userData: unknown;
-
-try {
-    userData = JSON.parse(importedUserDataJson);
-}
-catch (error) {
-    throw Error(`Format of ${USER_DATA_PATH} is not valid JSON`);
-}
-
-if (typeof userData !== 'object' || userData === null) {
-    throw Error(`Parsed ${USER_DATA_PATH} is not an object`);
-}
+const userData: object = importJson(USER_DATA_PATH);
 
 // check if userdata.json is of correct type
 if (!isUserData(userData)) {
@@ -73,13 +43,12 @@ if (!isUserData(userData)) {
 
 // create collection.csv file
 const dreambornCollection: DreambornCollectionCard[] = getDreambornCollection(allCards, userData);
-const COLLECTION_CSV_PATH = "./output/collection.csv" as const;
 const collectionHeader = "Set Number,Card Number,Variant,Count";
-fs.writeFileSync(COLLECTION_CSV_PATH, [collectionHeader, ...dreambornCollection.map(card => [card.setNumber, card.cardNumber, card.variant, card.count].join(', '))].join('\n'), { encoding: 'utf-8' });
+fs.writeFileSync(`${OUTPUT_DIR}/collection.csv`, [collectionHeader, ...dreambornCollection.map(card => [card.setNumber, card.cardNumber, card.variant, card.count].join(', '))].join('\n'), { encoding: 'utf-8' });
 
 // create all deck.txt files
 const dreambornDeckList: DreambornDeck[] = getDreambornDeckList(allCards, userData);
 dreambornDeckList.forEach(deck => {
-    const deckFileName = `./output/deck-${deck.name}.txt`;
+    const deckFileName = `${OUTPUT_DIR}/deck-${deck.name}.txt`;
     fs.writeFileSync(deckFileName, deck.cards.map(card => [card.count, card.fullName].join(' ')).join('\n'), { encoding: 'utf-8' });
 });

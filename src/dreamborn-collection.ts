@@ -2,6 +2,8 @@ import type { AllCards, Card } from "./types/all-cards";
 import { DREAMBRON_COLLECTION_CARD_VARIANT, type DreambornCollectionCard, type DreambornCollectionCardVariant } from "./types/dreamborn";
 import { USER_DATA_CARD_TYPE, type UserData, type UserDataCard, type UserDataCardType } from "./types/user-data";
 
+const EXCLUDED_SET_NUMBERS = ["Q1"] as const;
+
 function userDataTypeToDreambornVariant(userDataType: UserDataCardType): DreambornCollectionCardVariant {
     switch (userDataType) {
         case USER_DATA_CARD_TYPE.REGULAR:
@@ -28,7 +30,7 @@ export function getDreambornCollection(allCards: AllCards, userData: UserData): 
             return {userDataCard, card};
         })
         .filter(({card}) => {
-            const filteredOutSetNumbers: string[] = ["Q1"];
+            const filteredOutSetNumbers: string[] = Array.from(EXCLUDED_SET_NUMBERS);
             return !filteredOutSetNumbers.includes(card.setCode);
         })
         .map(({userDataCard, card}) => {
