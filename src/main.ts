@@ -10,7 +10,7 @@ const MODE = {
 } as const;
 type Mode = (typeof MODE)[keyof typeof MODE];
 
-const mode: Mode = MODE.COLLECTION;
+const mode: Mode = MODE.DECK;
 
 async function main(): Promise<void> {
     switch (mode) {
