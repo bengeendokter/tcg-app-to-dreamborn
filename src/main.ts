@@ -6,8 +6,11 @@ import { getDreambornCollection } from './dreamborn-collection';
 import { getDreambornDeckList } from './dreamborn-deck';
 import { importJson } from './import-json';
 import { fetchJson } from './fetch-json';
+import { parseUrlId } from './parse-url-id';
 
 // TODO add individual deck link input option
+const inputDeckUrl: string = 'https://www.disneylorcana.com/sharing/deck?id=897ce782-f5a7-4fdb-845e-1a89aafdd369';
+const deckUrl = 'https://sharing.lorcana.ravensburger.com/deck/897ce782-f5a7-4fdb-845e-1a89aafdd369.json' as const;
 
 const inputBackupUrl: string = 'https://www.disneylorcana.com/sharing/backup?id=7fcf9ad0-eac2-4a11-9b00-07802471e7d4';
 
@@ -17,25 +20,8 @@ const USING_BACKUP_URL = true as const;
 const USER_DATA_PATH = "./data/userdata.json" as const;
 const OUTPUT_DIR = "./output" as const;
 
-if(!URL.canParse(inputBackupUrl))
-{
-    throw Error(`${inputBackupUrl} is not a valid URL`);
-}
-
-const backupUrl: URL = new URL(inputBackupUrl);
-const searchParams: URLSearchParams = backupUrl.searchParams;
-if(!searchParams.has('id'))
-{
-    throw Error(`URL ${inputBackupUrl} does not contain a valid id parameter`);
-}
-
-const id: string | null = searchParams.get("id");
-if(id === null || id.length === 0)
-{
-    throw Error(`URL ${inputBackupUrl} does not contain a valid id parameter`);
-}
-
-const userDataUrl = `https://sharing.lorcana.ravensburger.com/backup/${id}.json` as const;
+const backupId: string = parseUrlId(inputBackupUrl);
+const userDataUrl = `https://sharing.lorcana.ravensburger.com/backup/${backupId}.json` as const;
 
 // get allCards.json
 let allCards: object;
