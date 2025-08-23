@@ -47,7 +47,7 @@ function isUserDataCard(object: object): object is UserDataCard {
     return true;
 }
 
-function isUserDataDeck(object: object): object is UserDataDeck {
+export function isUserDataDeck(object: object): object is UserDataDeck {
     if (!('DeckCode' in object) || typeof object.DeckCode !== 'string') {
         return false;
     }
