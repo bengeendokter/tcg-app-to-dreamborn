@@ -1,5 +1,5 @@
 # TCG App to Dreamborn
-Extract data from the TCG Companion app and generate collection and deck files to import into [dreamborn.ink](https://dreamborn.ink).
+Extract data from the TCG Companion app links and generate collection and deck files to import into [dreamborn.ink](https://dreamborn.ink).
 
 ## Local installation
 1. Instal node.js
