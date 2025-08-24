@@ -6,6 +6,7 @@
   "type": "module",
   "scripts": {
     "start": "tsx src/main.ts",
+    "start:server": "tsx src/server.ts",
     "build": "tsup src/**/* --format esm --dts"
   },
   "keywords": [],
@@ -13,11 +14,15 @@
   "license": "ISC",
   "packageManager": "pnpm@10.15.0",
   "devDependencies": {
+    "@types/express": "^5.0.3",
     "@types/node": "^24.3.0",
     "tsup": "^8.5.0",
     "tsx": "^4.20.4"
   },
   "files": [
     "/dist"
-  ]
+  ],
+  "dependencies": {
+    "express": "^5.1.0"
+  }
 }

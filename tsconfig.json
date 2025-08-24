@@ -12,6 +12,8 @@
     // For nodejs:
     "lib": ["esnext", "dom"],
     "types": ["node"],
+    "moduleResolution": "node",
+    "allowSyntheticDefaultImports": true,
 
     // Other Outputs
     "sourceMap": true,
