@@ -1,9 +1,7 @@
 import { fetchJson } from "./fetch-json";
 import { importJson } from "./import-json";
-import { isAllCards, type AllCards } from "./types/all-cards";
-
-const ALL_CARDS_URL = 'https://lorcanajson.org/files/current/en/allCards.json' as const;
-const ALL_CARDS_PATH = "./data/allCards.json" as const;
+import { isAllCards, type AllCards } from "../model/all-cards";
+import { CONFIG } from "../model/environment";
 
 export async function getAllCards(): Promise<AllCards> {
     // get allCards.json
@@ -11,12 +9,12 @@ export async function getAllCards(): Promise<AllCards> {
 
     try {
         // try to fetch the newest allCards.json
-        allCards = await fetchJson(ALL_CARDS_URL);
+        allCards = await fetchJson(CONFIG.ALL_CARDS_URL);
     }
     catch {
         // if the fetch fails, use the local version
-        console.warn(`Warning: Fetching ${ALL_CARDS_URL} failed. Using local version at ${ALL_CARDS_PATH}`);
-        allCards = importJson(ALL_CARDS_PATH);
+        console.warn(`Warning: Fetching ${CONFIG.ALL_CARDS_URL} failed. Using local version at ${CONFIG.ALL_CARDS_PATH}`);
+        allCards = importJson(CONFIG.ALL_CARDS_PATH);
     }
 
     // check if allCards.json is of correct type

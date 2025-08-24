@@ -1,8 +1,7 @@
-import type { AllCards, Card } from "./types/all-cards";
-import { DREAMBRON_COLLECTION_CARD_VARIANT, type DreambornCollectionCard, type DreambornCollectionCardVariant } from "./types/dreamborn";
-import { USER_DATA_CARD_TYPE, type UserData, type UserDataCard, type UserDataCardType } from "./types/user-data";
-
-const EXCLUDED_SET_NUMBERS = ["Q1"] as const;
+import type { AllCards, Card } from "../model/all-cards";
+import { DREAMBRON_COLLECTION_CARD_VARIANT, type DreambornCollectionCard, type DreambornCollectionCardVariant } from "../model/dreamborn";
+import { CONFIG } from "../model/environment";
+import { USER_DATA_CARD_TYPE, type UserData, type UserDataCard, type UserDataCardType } from "../model/user-data";
 
 function userDataTypeToDreambornVariant(userDataType: UserDataCardType): DreambornCollectionCardVariant {
     switch (userDataType) {
@@ -27,13 +26,13 @@ export function getDreambornCollection(allCards: AllCards, userData: UserData): 
                 throw Error(`Card with ID ${userDataCard.Id} not found in allCards`);
             }
 
-            return {userDataCard, card};
+            return { userDataCard, card };
         })
-        .filter(({card}) => {
-            const filteredOutSetNumbers: string[] = Array.from(EXCLUDED_SET_NUMBERS);
+        .filter(({ card }) => {
+            const filteredOutSetNumbers: string[] = Array.from(CONFIG.EXCLUDED_SET_NUMBERS);
             return !filteredOutSetNumbers.includes(card.setCode);
         })
-        .map(({userDataCard, card}) => {
+        .map(({ userDataCard, card }) => {
             const variant: DreambornCollectionCardVariant = userDataTypeToDreambornVariant(userDataCard.Type);
 
             const setNumber: number = Number(card.setCode);

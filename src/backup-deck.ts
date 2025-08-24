@@ -1,10 +1,10 @@
-import { getAllCards } from "./all-cards";
-import { getDreambornDeck } from "./dreamborn-deck";
-import { fetchJson } from "./fetch-json";
-import { parseUrlId } from "./parse-url-id";
-import type { AllCards } from "./types/all-cards";
-import type { DreambornDeck } from "./types/dreamborn";
-import { isUserDataDeck } from "./types/user-data";
+import { getAllCards } from "./data-access/all-cards";
+import { getDreambornDeck } from "./feature/dreamborn-deck";
+import { fetchJson } from "./data-access/fetch-json";
+import { parseUrlId } from "./util/parse-url-id";
+import type { AllCards } from "./model/all-cards";
+import type { DreambornDeck } from "./model/dreamborn";
+import { isUserDataDeck } from "./model/user-data";
 
 export async function backupDeck(deckUrl: string): Promise<DreambornDeck> {
     const deckId: string = parseUrlId(deckUrl);

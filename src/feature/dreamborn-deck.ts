@@ -1,6 +1,6 @@
-import type { AllCards, Card } from "./types/all-cards";
-import type { DreambornDeck, DreambornDeckCard } from "./types/dreamborn";
-import type { UserData, UserDataDeck } from "./types/user-data";
+import type { AllCards, Card } from "../model/all-cards";
+import type { DreambornDeck, DreambornDeckCard } from "../model/dreamborn";
+import type { UserData, UserDataDeck } from "../model/user-data";
 
 interface CountedCardCode {
     cardCode: string;

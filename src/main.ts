@@ -1,12 +1,13 @@
 import * as fs from 'fs';
 import { backupCollection } from './backup-collection';
 import { backupDeck } from './backup-deck';
-import type { DreambornCollectionCard, DreambornDeck } from './types/dreamborn';
-import { MODE, type Mode } from './types/mode';
+import type { DreambornCollectionCard, DreambornDeck } from './model/dreamborn';
+import { MODE, type Mode } from './model/mode';
+import { CONFIG } from './model/environment';
 
 const deckUrl: string = 'https://www.disneylorcana.com/sharing/deck?id=897ce782-f5a7-4fdb-845e-1a89aafdd369';
 const backupUrl: string = 'https://www.disneylorcana.com/sharing/backup?id=7fcf9ad0-eac2-4a11-9b00-07802471e7d4';
-const outputDirectory: string = "./output";
+const outputDirectory: string = CONFIG.DEFAULT_OUTPUT_DIRECTORY;
 const mode: Mode = MODE.DECK;
 
 async function main(): Promise<void> {

@@ -1,15 +1,13 @@
-import type { AllCards } from './types/all-cards';
-import { isUserData } from './types/user-data';
-import type { DreambornCollectionCard, DreambornDeck } from './types/dreamborn';
-import { getDreambornCollection } from './dreamborn-collection';
-import { getDreambornDeckList } from './dreamborn-deck';
-import { importJson } from './import-json';
-import { fetchJson } from './fetch-json';
-import { parseUrlId } from './parse-url-id';
-import { getAllCards } from './all-cards';
-
-const USING_BACKUP_URL = true as const;
-const USER_DATA_PATH = "./data/userdata.json" as const;
+import type { AllCards } from './model/all-cards';
+import { isUserData } from './model/user-data';
+import type { DreambornCollectionCard, DreambornDeck } from './model/dreamborn';
+import { getDreambornCollection } from './feature/dreamborn-collection';
+import { getDreambornDeckList } from './feature/dreamborn-deck';
+import { importJson } from './data-access/import-json';
+import { fetchJson } from './data-access/fetch-json';
+import { parseUrlId } from './util/parse-url-id';
+import { getAllCards } from './data-access/all-cards';
+import { CONFIG } from './model/environment';
 
 export async function backupCollection(backupUrl: string): Promise<{ collection: DreambornCollectionCard[], decks: DreambornDeck[] }> {
     const backupId: string = parseUrlId(backupUrl);
@@ -21,13 +19,13 @@ export async function backupCollection(backupUrl: string): Promise<{ collection:
     // fetch or import userdata.json
     let userData: object;
 
-    if (USING_BACKUP_URL) {
+    if (CONFIG.USING_BACKUP_URL) {
         // fetch userdata.json from backup URL
         userData = await fetchJson(apiBackupUrl);
     }
     else {
         // import userdata.json
-        userData = importJson(USER_DATA_PATH);
+        userData = importJson(CONFIG.USER_DATA_PATH);
     }
 
     // check if userdata.json is of correct type
