@@ -1,0 +1,6 @@
+import {
+  DREAMBRON_COLLECTION_CARD_VARIANT
+} from "../chunk-Y6YBLUTX.js";
+export {
+  DREAMBRON_COLLECTION_CARD_VARIANT
+};
