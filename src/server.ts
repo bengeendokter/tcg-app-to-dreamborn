@@ -8,7 +8,7 @@ const app = express();
 const port = 3000;
 
 const corsOptions = {
-    origin: 'http://localhost:4200',
+    origin: ['http://localhost:4200', 'https://tcg-app-to-dreamborn.bengeendokter.be']
 }
 
 app.use(cors(corsOptions));
@@ -32,5 +32,5 @@ app.post('/api/deck', async (request, response) => {
 });
 
 app.listen(port, () => {
-    console.log(`Example app listening on port ${port}`);
+    console.log(`App listening on port ${port}`);
 });
