@@ -11,13 +11,25 @@ const corsOptions = {
     origin: ['http://localhost:4200', 'https://tcg-app-to-dreamborn.bengeendokter.be']
 }
 
+// Custom middleware to log all incoming requests
+app.use((req, res, next) => {
+    console.log(`${new Date()} Received request`);
+    // Check for CORS-related headers
+    if (req.headers.origin) {
+        console.log(`  Origin: ${req.headers.origin}`);
+    }
+    if (req.headers['access-control-request-method']) {
+        console.log(`  CORS preflight request for method: ${req.headers['access-control-request-method']}`);
+    }
+    next();
+});
+
 app.use(cors(corsOptions));
 app.use(bodyParser.json());
 
 app.post('/api/deck', async (request, response) => {
     try {
-        const origin = request.get('origin');
-        console.log(`${new Date()} Received request from origin: ${origin}`);
+        console.log(`${new Date()} Received request on '/api/deck'`);
 
         const backupUrl: string = request.body.backupUrl;
         const dreambornDeck: DreambornDeck = await backupDeck(backupUrl);
