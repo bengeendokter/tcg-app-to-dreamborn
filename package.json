@@ -5,7 +5,8 @@
   "main": "src/main.ts",
   "type": "module",
   "scripts": {
-    "start": "tsx src/main.ts"
+    "start": "tsx src/main.ts",
+    "build": "tsup src/**/* --format esm --dts"
   },
   "keywords": [],
   "author": "",
@@ -13,6 +14,10 @@
   "packageManager": "pnpm@10.15.0",
   "devDependencies": {
     "@types/node": "^24.3.0",
+    "tsup": "^8.5.0",
     "tsx": "^4.20.4"
-  }
+  },
+  "files": [
+    "/dist"
+  ]
 }
