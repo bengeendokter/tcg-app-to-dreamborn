@@ -54,4 +54,5 @@ app.post('/api/deck', async (request, response) => {
 
 app.listen(port, () => {
     console.log(`${new Date()} App listening on port ${port}`);
+    console.log('Allowed cors origins: ', corsOptions.origin.join(', '))
 });
