@@ -8,7 +8,11 @@ const app = express();
 const port = 3000;
 
 const corsOptions = {
-    origin: ['http://localhost:4200', 'https://tcg-app-to-dreamborn.bengeendokter.be']
+    origin: [
+        'http://localhost:4200',
+        'http://192.168.0.163:8080',
+        'https://tcg-app-to-dreamborn.bengeendokter.be'
+    ]
 }
 
 // Custom middleware to log all incoming requests
