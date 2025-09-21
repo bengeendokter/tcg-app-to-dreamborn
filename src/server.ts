@@ -12,7 +12,8 @@ const corsOptions = {
         'http://localhost:4200',
         'http://192.168.0.163:8080',
         'https://tcg-app-to-dreamborn.bengeendokter.be',
-        'https://tcg-app-to-dreamborn.home.bengeendokter.be'
+        'https://tcg-app-to-dreamborn.home.bengeendokter.be',
+        'https://tcg-app-to-dreamborn.netlify.app'
     ]
 }
 
