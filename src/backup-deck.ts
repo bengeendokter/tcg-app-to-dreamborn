@@ -6,6 +6,25 @@ import type { AllCards } from "./model/all-cards";
 import type { DreambornDeck } from "./model/dreamborn";
 import { isUserDataDeck } from "./model/user-data";
 
+interface SetCard {
+    name: string;
+    localId: number;
+    setName: string;
+}
+
+type Type = 'Grass' | 'Fire' | 'Water' | 'Lightning' | 'Psychic' | 'Darkness' | 'Metal' | 'Fairy';
+type EnergyCard = `Basic_${Type}_Energy`;
+
+interface CardWithQuantity {
+    card: SetCard | EnergyCard;
+    quantity: number;
+}
+
+interface Deck {
+    cards: CardWithQuantity[];
+}
+
+
 export async function backupDeck(deckUrl: string): Promise<DreambornDeck> {
     const deckId: string = parseUrlId(deckUrl);
     const apiDeckUrl = `https://sharing.lorcana.ravensburger.com/deck/${deckId}.json` as const;
