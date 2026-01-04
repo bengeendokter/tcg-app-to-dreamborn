@@ -1,6 +1,7 @@
 export const USER_DATA_CARD_TYPE = {
     REGULAR: "Regular",
-    FOILED: "Foiled"
+    FOILED: "Foiled",
+    STARTER_FOIL: "StarterFoil"
 } as const;
 
 export type UserDataCardType = typeof USER_DATA_CARD_TYPE[keyof typeof USER_DATA_CARD_TYPE];

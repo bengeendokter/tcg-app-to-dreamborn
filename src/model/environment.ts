@@ -7,7 +7,7 @@ export const CONFIG = {
     ALL_CARDS_URL: 'https://lorcanajson.org/files/current/en/allCards.json',
     ALL_CARDS_PATH: `${DEFAULT_DATA_DIRECTORY}/allCards.json`,
 
-    USING_BACKUP_URL: true,
+    USING_BACKUP_URL: false,
     USER_DATA_PATH: `${DEFAULT_DATA_DIRECTORY}/userdata.json`,
 
     EXCLUDED_SET_NUMBERS: ["Q1"]

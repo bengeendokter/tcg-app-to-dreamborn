@@ -9,6 +9,8 @@ function userDataTypeToDreambornVariant(userDataType: UserDataCardType): Dreambo
             return DREAMBRON_COLLECTION_CARD_VARIANT.NORMAL;
         case USER_DATA_CARD_TYPE.FOILED:
             return DREAMBRON_COLLECTION_CARD_VARIANT.FOIL;
+        case USER_DATA_CARD_TYPE.STARTER_FOIL:
+            return DREAMBRON_COLLECTION_CARD_VARIANT.FOIL;
         default:
             userDataType satisfies never;
             throw Error(`Unknown UserDataCardType: ${userDataType}`);
